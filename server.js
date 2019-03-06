@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const app = express();
 
-let port = process.ENV || 3000;
+let port = process.env.PORT || 3000;
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -41,6 +41,6 @@ app.get("/", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("server is running on port 3000");
 });
