@@ -39,6 +39,10 @@ async function getQuotes(num) {
 }
 
 app.get("/", (req, res) => {
+  res.send("my random api");
+});
+
+app.get("/quote", (req, res) => {
   getQuotes(10).then(data => {
     res.send(data);
   });
