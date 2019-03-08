@@ -31,6 +31,6 @@ async function getQuotes(num) {
   return quote;
 }
 
-modules.export = {
+module.exports = {
   getQuotes
 };
