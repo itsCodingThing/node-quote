@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { getQuotes } = require("./utils/quotes");
+const { saveQuotes } = require("./utils/database");
 
 app.use(cors());
 
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 app.get("/quote", (req, res) => {
   getQuotes(10).then(data => {
     res.send(data);
+    saveQuotes(data);
   });
 });
 
