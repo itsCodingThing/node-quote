@@ -1,10 +1,3 @@
-# Node build artifacts
 node_modules
-npm-debug.log
-node-quote-database-firebase.json
-package-lock.json
-
-# Local development
-*.env
-*.dev
-.DS_Store
+./node-quote-database-firebase.json
+./package-lock.json
