@@ -10,7 +10,7 @@ firebase.initializeApp({
 });
 
 const db = firebase.database();
-const quoteServer = db.ref("server-database/saving-data/quotes");
+const quoteServer = db.ref("server-database/quotes");
 
 async function saveQuotes(quote) {
   await quoteServer.child(`${quote.title}-${uuid()}`).set({ ...quote });
