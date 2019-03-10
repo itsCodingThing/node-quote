@@ -1,6 +1,7 @@
 const firebase = require("firebase-admin");
 const uuid = require("uuid/v1");
 
+//needed admin credential for firebase project
 const serviceAccount = require("../node-quote-database-firebase.json");
 
 firebase.initializeApp({
