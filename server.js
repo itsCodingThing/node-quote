@@ -13,9 +13,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/quote", (req, res) => {
-  getQuotes(10).then(data => {
-    res.send(data);
-    saveQuotes(data);
+  getQuotes(10).then(quote => {
+    res.send(quote);
+    saveQuotes(quote);
   });
 });
 
