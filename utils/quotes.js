@@ -1,5 +1,9 @@
 const axios = require("axios");
 
+function getRandomInt(numMax) {
+  return Math.floor(Math.random() * numMax);
+}
+
 async function getQuotes() {
   let quote = await axios
     .get("https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand")
@@ -8,13 +12,13 @@ async function getQuotes() {
       if (data.length > 1) {
         let randomQuote = getRandomInt(data.length);
         return {
-          title: data[randomQuote].title,
-          content: data[randomQuote].content,
+          title: data[randomQuote].title.rendered,
+          content: data[randomQuote].content.rendered,
         };
       } else {
         return {
-          title: data[0].title,
-          content: data[0].content,
+          title: data[0].title.rendered,
+          content: data[0].content.rendered,
         };
       }
     });

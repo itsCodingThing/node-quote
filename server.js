@@ -1,24 +1,22 @@
 const express = require("express");
 const cors = require("cors");
+
 const app = express();
 const { getQuotes } = require("./utils/quotes");
 const { saveQuotes } = require("./utils/database");
 
+const PORT = process.env.PORT || 1729;
+
 app.use(cors());
 
-let port = process.env.PORT || 3000;
-
-app.get("/", (req, res) => {
-  res.send("my random api");
-});
-
-app.get("/quote", (req, res) => {
-  getQuotes().then((quote) => {
+app.get("/quote", function handleQuoteRoute(req, res) {
+  getQuotes().then(function handleResQuote(quote) {
+    console.log(quote);
     res.send(quote);
     saveQuotes(quote);
   });
 });
 
-app.listen(port, () => {
-  console.log("server is running on port 3000");
+app.listen(PORT, function listener() {
+  console.log(`server is running on port ${PORT}`);
 });
