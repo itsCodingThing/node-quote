@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/quote", (req, res) => {
-  getQuotes(10).then(quote => {
+  getQuotes().then((quote) => {
     res.send(quote);
     saveQuotes(quote);
   });
