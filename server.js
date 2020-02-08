@@ -11,7 +11,6 @@ app.use(cors());
 
 app.get("/quote", function handleQuoteRoute(req, res) {
   getQuotes().then(function handleResQuote(quote) {
-    console.log(quote);
     res.send(quote);
     saveQuotes(quote);
   });
