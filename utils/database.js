@@ -1,6 +1,4 @@
 const firebase = require("firebase-admin");
-const uuid = require("uuid/v1");
-const isEqual = require("lodash/isEqual");
 
 //needed admin credential for firebase project
 const serviceAccount = require("../node-quote-database-firebase.json");
@@ -15,16 +13,6 @@ const quoteServer = db.ref("server-database/quotes");
 
 const store = firebase.firestore();
 const quotesCollection = store.collection("quotes");
-
-function filterQuotes(resQuote, quotes) {
-  let i = 0;
-  for (let key in quotes) {
-    if (isEqual(resQuote, quotes[key])) {
-      ++i;
-    }
-  }
-  return i;
-}
 
 async function getQuoteFromDb() {
   let snapshot = await quoteServer.once("value");

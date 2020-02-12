@@ -17,8 +17,6 @@
     "axios": "^0.18.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "firebase-admin": "^7.0.0",
-    "lodash": "^4.17.11",
-    "uuid": "^3.3.2"
+    "firebase-admin": "^7.0.0"
   }
 }
