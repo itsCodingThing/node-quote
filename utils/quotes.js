@@ -3,9 +3,7 @@ const { getQuoteFromDb } = require("./database");
 
 async function getQuotes() {
   try {
-    let { data } = await axios.get(
-      "https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand"
-    );
+    let { data } = await axios.get("https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand");
 
     if (data.length > 1) {
       let randomQuote = Math.floor(Math.random() * data.length);
