@@ -1,9 +1,7 @@
-require("dotenv").config();
 const firebase = require("firebase-admin");
 
 //  needed admin credential for firebase project
 //  const serviceAccount = require("../node-quote-database-firebase.json");
-console.log(process.env.FIREBASE_PRIVATE_KEY_ID, process.env.FIREBASE_PRIVATE_KEY, process.env.FIREBASE_CLIENT_ID);
 const config = {
   type: "service_account",
   project_id: "node-quote-database",
