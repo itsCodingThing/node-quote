@@ -1,7 +1,7 @@
 const firebase = require("firebase-admin");
 
+// <([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)
 //  needed admin credential for firebase project
-//  const serviceAccount = require("../node-quote-database-firebase.json");
 const config = {
   type: "service_account",
   project_id: "node-quote-database",
@@ -21,9 +21,11 @@ firebase.initializeApp({
   databaseURL: "https://node-quote-database.firebaseio.com",
 });
 
+// realtime databasee
 const db = firebase.database();
 const quoteServer = db.ref("server-database/quotes");
 
+// cloud store
 const store = firebase.firestore();
 const quotesCollection = store.collection("quotes");
 
@@ -35,14 +37,8 @@ async function getQuoteFromDb() {
   return quote.val();
 }
 
-/**
- * @param {title: "some title",content: "some quote"} quote
- */
-
-function saveQuotes(quote) {
-  let { title, content } = quote;
-
-  // check for exists author
+function saveQuotes({ title, content }) {
+  // check for existing author
   quotesCollection
     .where("content", "==", content)
     .get()
@@ -50,6 +46,9 @@ function saveQuotes(quote) {
       if (snapshot.empty) {
         return quotesCollection.add({ title, content });
       }
+    })
+    .catch(() => {
+      console.log("something wrong is here!!");
     });
 }
 
