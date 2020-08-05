@@ -1,7 +1,12 @@
-const axios = require("axios");
-const { getQuoteFromDb } = require("./database");
+import axios from "axios";
+// const { getQuoteFromDb } = require("./database");
 
-async function getQuotes() {
+export interface QuoteObj {
+  title: string;
+  content: string;
+}
+
+async function getQuotes(): Promise<QuoteObj> {
   try {
     let { data } = await axios.get("https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand");
 
@@ -18,10 +23,8 @@ async function getQuotes() {
       };
     }
   } catch (error) {
-    return getQuoteFromDb();
+    // return getQuoteFromDb();
   }
 }
 
-module.exports = {
-  getQuotes,
-};
+export { getQuotes };
