@@ -10,7 +10,7 @@ const config = {
   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
   client_x509_cert_url:
     "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6rktm%40node-quote-database.iam.gserviceaccount.com",
-  client_email: "firebase-adminsdk-6rktm@node-quote-database.iam.gserviceaccount.com",
+  client_email: `${process.env.FIREBASE_CLIENT_EMAIL}`,
   private_key_id: `${process.env.FIREBASE_PRIVATE_KEY_ID}`,
   private_key: `${process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")}`,
   client_id: `${process.env.FIREBASE_CLIENT_ID}`,
