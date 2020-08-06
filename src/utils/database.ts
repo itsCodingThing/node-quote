@@ -19,7 +19,7 @@ import { QuoteObj } from "./quotes";
 
 const config: ServiceAccount = {
   projectId: "node-quote-database",
-  clientEmail: "firebase-adminsdk-6rktm@node-quote-database.iam.gserviceaccount.com",
+  clientEmail: `${process.env.FIREBASE_CLIENT_EMAIL}`,
   privateKey: `${process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")}`,
 };
 
