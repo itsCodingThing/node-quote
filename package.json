@@ -12,7 +12,7 @@
     "watch-ts": "tsc -w",
     "watch-node": "nodemon dist/server.js",
     "dev": "concurrently -i -n \"TS,NODE\" -c \"bgMagenta.bold,bgCyan.bold\" \"npm run watch-ts\" \"npm run watch-node\" ",
-    "deploy": "npm run build && node dist/server.js"
+    "heroku_build": "npm run build && node dist/server.js"
   },
   "engines": {
     "node": "12.13.1"
