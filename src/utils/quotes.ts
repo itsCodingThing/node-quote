@@ -1,5 +1,5 @@
 import axios from "axios";
-// const { getQuoteFromDb } = require("./database");
+import db from "./database";
 
 export interface QuoteObj {
   title: string;
@@ -23,7 +23,7 @@ async function getQuotes(): Promise<QuoteObj> {
       };
     }
   } catch (error) {
-    // return getQuoteFromDb();
+    return db.getQuoteFromDb();
   }
 }
 

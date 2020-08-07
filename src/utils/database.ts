@@ -1,5 +1,9 @@
-import { initializeApp, credential as _credential, database, firestore, ServiceAccount } from "firebase-admin";
+import { initializeApp, credential, database, firestore, ServiceAccount } from "firebase-admin";
+import dotenv from "dotenv";
 import { QuoteObj } from "./quotes";
+
+// Initialize the enviroment config from .env file for local development
+dotenv.config();
 
 const config: ServiceAccount = {
   projectId: "node-quote-database",
@@ -8,7 +12,7 @@ const config: ServiceAccount = {
 };
 
 initializeApp({
-  credential: _credential.cert(config),
+  credential: credential.cert(config),
   databaseURL: "https://node-quote-database.firebaseio.com",
 });
 

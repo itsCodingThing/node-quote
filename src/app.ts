@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { getQuotes } from "./utils/quotes";
-// const { saveQuotes } = require("./utils/database");
+import db from "./utils/database";
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use(cors());
 app.get("/quote", (req, res) => {
   getQuotes().then((quote: { title: string; content: string }) => {
     res.send(quote);
-    // saveQuotes(quote);
+    db.saveQuotes(quote);
   });
 });
 
