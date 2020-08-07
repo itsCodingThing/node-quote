@@ -1,9 +1,9 @@
 import { initializeApp, credential, database, firestore, ServiceAccount } from "firebase-admin";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import { QuoteObj } from "./quotes";
 
 // Initialize the enviroment config from .env file for local development
-dotenv.config();
+// dotenv.config();
 
 const config: ServiceAccount = {
   projectId: "node-quote-database",
@@ -24,15 +24,15 @@ const quoteServer = db.ref("server-database/quotes");
 const store = firestore();
 const quotesCollection = store.collection("quotes");
 
-async function getQuoteFromDb() {
-  let snapshot = await quoteServer.once("value");
-  let dataKeys = Object.keys(snapshot.val());
-  let url = `server-database/quotes/${dataKeys[Math.floor(Math.random() * dataKeys.length + 1)]}`;
-  let quote = await db.ref(url).once("value");
+async function getQuoteFromDb(): Promise<database.DataSnapshot> {
+  const snapshot = await quoteServer.once("value");
+  const dataKeys = Object.keys(snapshot.val());
+  const url = `server-database/quotes/${dataKeys[Math.floor(Math.random() * dataKeys.length + 1)]}`;
+  const quote = await db.ref(url).once("value");
   return quote.val();
 }
 
-function saveQuotes({ title, content }: QuoteObj) {
+function saveQuotes({ title, content }: QuoteObj): Promise<firestore.CollectionReference> | void {
   // check for existing author
   quotesCollection
     .where("content", "==", content)

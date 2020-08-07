@@ -8,10 +8,10 @@ export interface QuoteObj {
 
 async function getQuotes(): Promise<QuoteObj> {
   try {
-    let { data } = await axios.get("https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand");
+    const { data } = await axios.get("https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand");
 
     if (data.length > 1) {
-      let randomQuote = Math.floor(Math.random() * data.length);
+      const randomQuote = Math.floor(Math.random() * data.length);
       return {
         title: data[randomQuote].title.rendered,
         content: data[randomQuote].content.rendered,
@@ -22,8 +22,16 @@ async function getQuotes(): Promise<QuoteObj> {
         content: data[0].content.rendered,
       };
     }
-  } catch (error) {
-    return db.getQuoteFromDb();
+  } catch {
+    try {
+      const result = await db.getQuoteFromDb();
+      const val = await result.val();
+
+      return val;
+    } catch (error) {
+      console.error(error);
+      console.log("unable to fetch quotes from realtime database also");
+    }
   }
 }
 
