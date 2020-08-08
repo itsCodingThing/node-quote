@@ -1,9 +1,5 @@
 import { initializeApp, credential, database, firestore, ServiceAccount } from "firebase-admin";
-// import dotenv from "dotenv";
 import { QuoteObj } from "./quotes";
-
-// Initialize the enviroment config from .env file for local development
-// dotenv.config();
 
 const config: ServiceAccount = {
   projectId: "node-quote-database",
