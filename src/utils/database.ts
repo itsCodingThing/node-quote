@@ -1,4 +1,5 @@
 import { initializeApp, credential, database, firestore, ServiceAccount } from "firebase-admin";
+
 import { QuoteObj } from "./quotes";
 
 const config: ServiceAccount = {
@@ -20,7 +21,7 @@ const quoteServer = db.ref("server-database/quotes");
 const store = firestore();
 const quotesCollection = store.collection("quotes");
 
-async function getQuoteFromDb(): Promise<database.DataSnapshot> {
+async function getQuoteFromDb(): Promise<QuoteObj> {
   const snapshot = await quoteServer.once("value");
   const dataKeys = Object.keys(snapshot.val());
   const url = `server-database/quotes/${dataKeys[Math.floor(Math.random() * dataKeys.length + 1)]}`;
@@ -28,7 +29,7 @@ async function getQuoteFromDb(): Promise<database.DataSnapshot> {
   return quote.val();
 }
 
-function saveQuotes({ title, content }: QuoteObj): Promise<firestore.CollectionReference> | void {
+function saveQuotes({ title, content }: QuoteObj): void {
   // check for existing author
   quotesCollection
     .where("content", "==", content)
@@ -43,7 +44,4 @@ function saveQuotes({ title, content }: QuoteObj): Promise<firestore.CollectionR
     });
 }
 
-export default {
-  saveQuotes,
-  getQuoteFromDb,
-};
+export { saveQuotes, getQuoteFromDb };

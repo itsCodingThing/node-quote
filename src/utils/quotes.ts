@@ -1,12 +1,13 @@
 import axios from "axios";
-import db from "./database";
+
+import { getQuoteFromDb } from "./database";
 
 export interface QuoteObj {
   title: string;
   content: string;
 }
 
-async function getQuotes(): Promise<QuoteObj> {
+export async function getQuotes(): Promise<QuoteObj> {
   try {
     const { data } = await axios.get("https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand");
 
@@ -24,15 +25,11 @@ async function getQuotes(): Promise<QuoteObj> {
     }
   } catch {
     try {
-      const result = await db.getQuoteFromDb();
-      const val = await result.val();
-
-      return val;
+      const result = await getQuoteFromDb();
+      return result;
     } catch (error) {
       console.error(error);
       console.log("unable to fetch quotes from realtime database also");
     }
   }
 }
-
-export { getQuotes };
