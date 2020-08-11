@@ -1,4 +1,4 @@
-const app = require("./src/app");
+import app from "./app";
 
 const PORT = process.env.PORT || 1729;
 
