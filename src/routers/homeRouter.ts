@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getQuotes, QuoteObj } from "../utils/quotes";
+import { getQuotes, QuoteObj } from "../utils/utils";
 import { saveQuotes } from "../utils/database";
 
 const homeRouter = express.Router();

@@ -12,19 +12,22 @@
     "watch-ts": "tsc -w",
     "watch-node": "nodemon -r dotenv/config dist/server.js",
     "dev": "concurrently -i -n \"TS,NODE\" -c \"bgMagenta.bold,bgCyan.bold\" \"npm run watch-ts\" \"npm run watch-node\" ",
-    "heroku_build": "npm run build && node dist/server.js"
+    "heroku_build": "npm run build && node dist/server.js",
+    "ts-node": "ts-node"
   },
   "engines": {
-    "node": "12.13.1"
+    "node": "12.18.3"
   },
   "dependencies": {
     "@types/cors": "^2.8.7",
     "@types/express": "^4.17.7",
+    "@types/jsdom": "^16.2.3",
     "@types/node": "^14.0.27",
     "axios": "^0.18.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "firebase-admin": "^7.0.0",
+    "jsdom": "^16.4.0",
     "typescript": "^3.9.7"
   },
   "devDependencies": {
@@ -35,6 +38,7 @@
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2"
   }
 }
