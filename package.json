@@ -14,7 +14,7 @@
     "dev": "concurrently -i -n \"TS,NODE\" -c \"bgMagenta.bold,bgCyan.bold\" \"npm run watch-ts\" \"npm run watch-node\" ",
     "heroku_build": "npm run build && node dist/server.js",
     "ts-node": "ts-node",
-    "test": "jest"
+    "watch-test": "jest -w"
   },
   "engines": {
     "node": "12.18.3"
