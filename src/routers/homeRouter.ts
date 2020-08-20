@@ -5,11 +5,11 @@ import { saveQuotes } from "../utils/database";
 
 const homeRouter = express.Router();
 
-homeRouter.get("/", (req, res) => {
+homeRouter.get("/", (_req, res) => {
   res.send(`you are looking for this /quote url`);
 });
 
-homeRouter.get("/quote", async (req, res) => {
+homeRouter.get("/quote", async (_req, res) => {
   const quote = await fetchQuote();
   res.send(quote);
   saveQuotes(quote);
