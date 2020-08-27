@@ -1,7 +1,6 @@
 import express from "express";
 
 import { fetchQuote, QuoteObj } from "../utils/utils";
-import { saveQuotes } from "../utils/database";
 
 const homeRouter = express.Router();
 
@@ -10,16 +9,18 @@ homeRouter.get("/", (_req, res) => {
 });
 
 homeRouter.get("/quote", async (_req, res) => {
-  const quote = await fetchQuote();
-  res.send(quote);
-  saveQuotes(quote);
+  try {
+    const quote = await fetchQuote();
+    res.send(quote);
+  } catch {
+    res.send({ title: "noop!!!", content: "there must be some problem in api please try again" });
+  }
 });
 
-homeRouter.post("/save", (req, res) => {
+homeRouter.post("/add_quote", (req, res) => {
   const { title = "", content = "" }: QuoteObj = req.body;
 
   if (title && content) {
-    // db.saveQuotes({ title, content });
     res.send(`${title}-${content}`);
   } else {
     res.status(500).send("please provide complete details");

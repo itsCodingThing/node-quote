@@ -15,19 +15,47 @@ initializeApp({
 
 // cloud store
 const store = firestore();
-const quotesCollection = store.collection("quotes");
 
-export function saveQuotes({ title, content }: QuoteObj): void {
-  // check for existing author
-  quotesCollection
-    .where("content", "==", content)
-    .get()
-    .then((snapshot) => {
-      if (snapshot.empty) {
-        return quotesCollection.add({ title, content });
-      }
-    })
-    .catch(() => {
-      console.log("something wrong is here!!");
-    });
+const env = process.env.NODE_ENV || "production";
+
+const quotesCollection = env === "production" ? store.collection("quotes") : store.collection("qoutes-dev");
+
+export async function findRandom(n = 1): Promise<Array<QuoteObj>> {
+  const result = await quotesCollection.limit(n).get();
+  const quotes: Array<QuoteObj> = [];
+
+  result.forEach((snapshot) => {
+    const quote: QuoteObj = { id: snapshot.id, title: snapshot.data().title, content: snapshot.data().content };
+    quotes.push(quote);
+  });
+
+  return quotes;
+}
+
+export async function isAlreadySaved(quote: QuoteObj): Promise<boolean> {
+  const { content } = quote;
+
+  try {
+    const snapshot = await quotesCollection.where("content", "==", content).get();
+
+    if (snapshot.empty) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch {
+    throw new Error("something wrong with the firebase api");
+  }
+}
+
+export async function save({ title, content }: QuoteObj): Promise<QuoteObj> {
+  const exists = await isAlreadySaved({ title, content });
+
+  if (!exists) {
+    const quote = await quotesCollection.add({ title, content });
+    const snapshot = await quote.get();
+    const data = snapshot.data();
+
+    return { id: snapshot.id, title: data.title, content: data.content };
+  }
 }
