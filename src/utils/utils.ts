@@ -1,10 +1,9 @@
 import axios from "axios";
-import { findRandom, save } from "./database";
 
-export interface QuoteObj {
-  id?: string;
-  title: string;
-  content: string;
+import { QuoteObj, ServerResponse, SureThingPromiseRes } from "./interfaces";
+
+export function sendServerResponse({ ok, response, error }: ServerResponse): ServerResponse {
+  return { ok, response, error };
 }
 
 export async function fetchQuote(): Promise<QuoteObj> {
@@ -12,25 +11,13 @@ export async function fetchQuote(): Promise<QuoteObj> {
 
   if (result.ok) {
     const {
-      response: {
-        data: { author: title, content },
-      },
+      response: { data },
     } = result;
 
-    const savedQuote = await save({ title, content });
-
-    return savedQuote;
+    return { title: data.author, content: data.content };
   } else {
-    const qoutes = await findRandom();
-
-    return qoutes[0];
+    throw new Error("quotable api is not working");
   }
-}
-
-interface SureThingPromiseRes<T> {
-  ok: boolean;
-  response?: T;
-  error?: T;
 }
 
 export function sureThing<T>(p: Promise<T>): Promise<SureThingPromiseRes<T>> {

@@ -1,6 +1,8 @@
 import express from "express";
 
-import { fetchQuote, QuoteObj } from "../utils/utils";
+import { fetchQuote, sendServerResponse } from "../utils/utils";
+import { save } from "../utils/database";
+import { QuoteObj } from "../utils/interfaces";
 
 const homeRouter = express.Router();
 
@@ -11,9 +13,15 @@ homeRouter.get("/", (_req, res) => {
 homeRouter.get("/quote", async (_req, res) => {
   try {
     const quote = await fetchQuote();
-    res.send(quote);
+    const savedQuote = await save(quote);
+    res.send(sendServerResponse({ ok: true, response: savedQuote }));
   } catch {
-    res.send({ title: "noop!!!", content: "there must be some problem in api please try again" });
+    res.send(
+      sendServerResponse({
+        ok: false,
+        error: "There must be some problem with backend",
+      }),
+    );
   }
 });
 

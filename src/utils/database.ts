@@ -1,6 +1,6 @@
 import { initializeApp, credential, firestore, ServiceAccount } from "firebase-admin";
 
-import { QuoteObj } from "./utils";
+import { QuoteObj } from "./interfaces";
 
 const config: ServiceAccount = {
   projectId: "node-quote-database",
@@ -49,13 +49,17 @@ export async function isAlreadySaved(quote: QuoteObj): Promise<boolean> {
 }
 
 export async function save({ title, content }: QuoteObj): Promise<QuoteObj> {
-  const exists = await isAlreadySaved({ title, content });
+  try {
+    const exists = await isAlreadySaved({ title, content });
 
-  if (!exists) {
-    const quote = await quotesCollection.add({ title, content });
-    const snapshot = await quote.get();
-    const data = snapshot.data();
+    if (!exists) {
+      const quote = await quotesCollection.add({ title, content });
+      const snapshot = await quote.get();
+      const data = snapshot.data();
 
-    return { id: snapshot.id, title: data.title, content: data.content };
+      return { id: snapshot.id, title: data.title, content: data.content };
+    }
+  } catch (error) {
+    throw new Error("there must be some problem with the save method");
   }
 }
