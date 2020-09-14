@@ -1,6 +1,6 @@
 import { initializeApp, credential, firestore, ServiceAccount } from "firebase-admin";
 
-import { QuoteObj } from "./interfaces";
+import { QuoteObj, SavedQuoteObj } from "./interfaces";
 
 const config: ServiceAccount = {
   projectId: "node-quote-database",
@@ -32,16 +32,23 @@ export async function findRandom(n = 1): Promise<Array<QuoteObj>> {
   return quotes;
 }
 
-export async function isAlreadySaved(quote: QuoteObj): Promise<boolean> {
+export async function isAlreadySaved(quote: QuoteObj): Promise<SavedQuoteObj> {
   const { content } = quote;
 
   try {
     const snapshot = await quotesCollection.where("content", "==", content).get();
 
     if (snapshot.empty) {
-      return false;
+      return { exists: false, msg: "does'nt exists!" };
     } else {
-      return true;
+      const returnData: Array<SavedQuoteObj> = [];
+      snapshot.forEach((docSnapshot) => {
+        returnData.push({
+          exists: true,
+          data: { id: docSnapshot.id, title: docSnapshot.data().title, content: docSnapshot.data().content },
+        });
+      });
+      return { exists: returnData[0].exists, data: returnData[0].data };
     }
   } catch {
     throw new Error("something wrong with the firebase api");
@@ -50,16 +57,18 @@ export async function isAlreadySaved(quote: QuoteObj): Promise<boolean> {
 
 export async function save({ title, content }: QuoteObj): Promise<QuoteObj> {
   try {
-    const exists = await isAlreadySaved({ title, content });
+    const response = await isAlreadySaved({ title, content });
 
-    if (!exists) {
+    if (!response.exists) {
       const quote = await quotesCollection.add({ title, content });
       const snapshot = await quote.get();
       const data = snapshot.data();
 
       return { id: snapshot.id, title: data.title, content: data.content };
+    } else {
+      return response.data;
     }
-  } catch (error) {
-    throw new Error("there must be some problem with the save method");
+  } catch (e) {
+    throw e;
   }
 }

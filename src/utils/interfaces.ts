@@ -15,3 +15,9 @@ export interface SureThingPromiseRes<T> {
   response?: T;
   error?: T;
 }
+
+export interface SavedQuoteObj {
+  exists: boolean;
+  data?: QuoteObj;
+  msg?: string;
+}
